@@ -22,7 +22,17 @@ ATTR_LIGHTS = "lights"
 ATTR_PUMP1 = "pump1"
 ATTR_PUMP2 = "pump2"
 ATTR_PUMP3 = "pump3"
+ATTR_PUMP4 = "pump4"
+ATTR_PUMP5 = "pump5"
+ATTR_BLOWER1 = "blower1"
+ATTR_BLOWER2 = "blower2"
 ATTR_CONNECTED = "connected"
+ATTR_SPABOY_CONNECTED = "spaboy_connected"
+ATTR_SPABOY_PRODUCING = "spaboy_producing"
+ATTR_SDS = "sds"
+ATTR_YESS = "yess"
+ATTR_FOGGER = "fogger"
+ATTR_ERRORS = "errors"
 
 MIN_TEMP_F = 60
 MAX_TEMP_F = 104

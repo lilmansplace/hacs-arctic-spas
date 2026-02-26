@@ -39,6 +39,10 @@ The only required configuration is your Arctic Spa API key. You can obtain this 
 
 ## Entities Created
 
+Entities marked with *(if enabled)* are only created when the spa reports that feature in its status.
+
+### Controls
+
 | Entity | Type | Description |
 |--------|------|-------------|
 | Arctic Spa Hot Tub | Water Heater | Current/target temperature control |
@@ -46,17 +50,35 @@ The only required configuration is your Arctic Spa API key. You can obtain this 
 | Arctic Spa Pump 1 | Switch | On/off (speed reported as attribute) |
 | Arctic Spa Pump 2 | Switch | On/off control |
 | Arctic Spa Pump 3 | Switch | On/off control |
-| Arctic Spa Connected | Binary Sensor | API connectivity status |
+| Arctic Spa Pump 4 | Switch | On/off control *(if enabled)* |
+| Arctic Spa Pump 5 | Switch | On/off control *(if enabled)* |
+| Arctic Spa Blower 1 | Switch | On/off control *(if enabled)* |
+| Arctic Spa Blower 2 | Switch | On/off control *(if enabled)* |
+| Arctic Spa SDS | Switch | Sanitize/Descale System on/off *(if enabled)* |
+| Arctic Spa YESS | Switch | Energy saving system on/off *(if enabled)* |
+| Arctic Spa Fogger | Switch | Fogger on/off *(if enabled)* |
+| Arctic Spa Easy Mode | Switch | Easy mode on/off (assumed state) |
+| Arctic Spa Filter | Switch | Filter on/off control |
+| Arctic Spa Boost | Button | Activate boost mode |
+
+### Sensors
+
+| Entity | Type | Description |
+|--------|------|-------------|
 | Arctic Spa Temperature | Sensor | Current water temperature (°F) |
 | Arctic Spa Set Point | Sensor | Target temperature (°F) |
 | Arctic Spa pH Level | Sensor | Water pH level |
 | Arctic Spa pH Status | Sensor | pH status (OK, CAUTION_HIGH, etc.) |
-| Arctic Spa ORP Level | Sensor | ORP/chlorine level (mV) |
-| Arctic Spa ORP Status | Sensor | ORP status |
+| Arctic Spa Chlorine Level | Sensor | Chlorine level via ORP (mV) |
+| Arctic Spa Chlorine Status | Sensor | Chlorine status |
 | Arctic Spa Filter Status | Sensor | Current filter status |
 | Arctic Spa Filter Duration | Sensor | Filter cycle duration |
 | Arctic Spa Filter Frequency | Sensor | Filter cycle frequency |
 | Arctic Spa Filter Suspension | Sensor | Filter suspension status |
+| Arctic Spa Errors | Sensor | Count of active error codes |
+| Arctic Spa Connected | Binary Sensor | API connectivity status |
+| Arctic Spa Spa Boy Connected | Binary Sensor | Spa Boy® connection *(if enabled)* |
+| Arctic Spa Spa Boy Producing | Binary Sensor | Spa Boy® producing *(if connected)* |
 
 ## Services
 
@@ -66,8 +88,8 @@ Set a pump to a specific speed. Useful for pump 1 which supports low-speed mode.
 
 | Field | Description | Values |
 |-------|-------------|--------|
-| `pump_id` | Pump number | 1, 2, or 3 |
-| `speed` | Pump speed | `on`, `low`, `off` |
+| `pump_id` | Pump number | 1–5 |
+| `speed` | Pump speed | `on`, `low`, `high`, `off` |
 
 ## Migrating from REST Configuration
 

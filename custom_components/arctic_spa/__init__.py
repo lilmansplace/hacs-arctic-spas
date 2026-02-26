@@ -19,6 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS: list[Platform] = [
     Platform.BINARY_SENSOR,
+    Platform.BUTTON,
     Platform.LIGHT,
     Platform.SENSOR,
     Platform.SWITCH,
@@ -28,8 +29,8 @@ PLATFORMS: list[Platform] = [
 SERVICE_SET_PUMP_SPEED = "set_pump_speed"
 SERVICE_SET_PUMP_SPEED_SCHEMA = vol.Schema(
     {
-        vol.Required("pump_id"): vol.All(int, vol.Range(min=1, max=3)),
-        vol.Required("speed"): vol.In(["on", "low", "off"]),
+        vol.Required("pump_id"): vol.All(int, vol.Range(min=1, max=5)),
+        vol.Required("speed"): vol.In(["on", "low", "high", "off"]),
     }
 )
 

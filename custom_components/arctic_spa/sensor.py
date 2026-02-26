@@ -66,18 +66,18 @@ SENSOR_DESCRIPTIONS: tuple[ArcticSpaSensorDescription, ...] = (
     ArcticSpaSensorDescription(
         key="orp",
         value_key="orp",
-        translation_key="orp_level",
-        name="ORP Level",
+        translation_key="chlorine_level",
+        name="Chlorine Level",
         native_unit_of_measurement="mV",
         state_class=SensorStateClass.MEASUREMENT,
-        icon="mdi:flash-triangle-outline",
+        icon="mdi:flask-outline",
     ),
     ArcticSpaSensorDescription(
         key="orp_status",
         value_key="orp_status",
-        translation_key="orp_status",
-        name="ORP Status",
-        icon="mdi:flash-triangle-outline",
+        translation_key="chlorine_status",
+        name="Chlorine Status",
+        icon="mdi:flask-outline",
     ),
     ArcticSpaSensorDescription(
         key="filter_status",
@@ -117,10 +117,13 @@ async def async_setup_entry(
 ) -> None:
     """Set up Arctic Spa sensors."""
     coordinator: ArcticSpaCoordinator = hass.data[DOMAIN][entry.entry_id]
-    async_add_entities(
+    entities: list[SensorEntity] = [
         ArcticSpaSensor(coordinator, description)
         for description in SENSOR_DESCRIPTIONS
-    )
+    ]
+    if "errors" in coordinator.data:
+        entities.append(ArcticSpaErrorsSensor(coordinator))
+    async_add_entities(entities)
 
 
 class ArcticSpaSensor(ArcticSpaEntity, SensorEntity):
@@ -140,3 +143,30 @@ class ArcticSpaSensor(ArcticSpaEntity, SensorEntity):
     def native_value(self) -> Any:
         """Return the sensor value."""
         return self.coordinator.data.get(self.entity_description.value_key)
+
+
+class ArcticSpaErrorsSensor(ArcticSpaEntity, SensorEntity):
+    """Sensor showing the count of active spa errors."""
+
+    _attr_name = "Errors"
+    _attr_icon = "mdi:alert-circle-outline"
+    _attr_state_class = SensorStateClass.MEASUREMENT
+
+    def __init__(self, coordinator: ArcticSpaCoordinator) -> None:
+        super().__init__(coordinator, "errors")
+
+    @property
+    def native_value(self) -> int | None:
+        """Return the number of active errors."""
+        errors = self.coordinator.data.get("errors")
+        if errors is None:
+            return None
+        return len(errors)
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        """Return the list of active error codes."""
+        errors = self.coordinator.data.get("errors")
+        if errors:
+            return {"error_codes": errors}
+        return {}

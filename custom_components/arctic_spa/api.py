@@ -84,3 +84,36 @@ class ArcticSpaApiClient:
     async def async_set_temperature(self, setpoint_f: int) -> None:
         """Set the target temperature in Fahrenheit."""
         await self._request("PUT", "/spa/temperature", {"setpointF": setpoint_f})
+
+    async def async_set_feature(self, feature: str, state: str) -> None:
+        """Set a spa feature state ('on' or 'off')."""
+        await self._request("PUT", f"/spa/{feature}", {"state": state})
+
+    async def async_set_blower(self, blower_id: int, state: str) -> None:
+        """Set a blower state ('on' or 'off')."""
+        await self._request(
+            "PUT", f"/spa/blowers/{blower_id}", {"state": state}
+        )
+
+    async def async_activate_boost(self) -> None:
+        """Activate boost mode."""
+        await self._request("PUT", "/spa/boost")
+
+    async def async_set_filter(
+        self,
+        state: str | None = None,
+        frequency: int | None = None,
+        duration: int | None = None,
+        suspension: bool | None = None,
+    ) -> None:
+        """Set filter settings."""
+        data: dict[str, Any] = {}
+        if state is not None:
+            data["state"] = state
+        if frequency is not None:
+            data["frequency"] = frequency
+        if duration is not None:
+            data["duration"] = duration
+        if suspension is not None:
+            data["suspension"] = suspension
+        await self._request("PUT", "/spa/filter", data)
