@@ -1,0 +1,12 @@
+{
+  "domain": "arctic_spa",
+  "name": "Arctic Spa",
+  "codeowners": ["@lilmansplace"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/lilmansplace/hacs-arctic-spas",
+  "issue_tracker": "https://github.com/lilmansplace/hacs-arctic-spas/issues",
+  "iot_class": "cloud_polling",
+  "requirements": [],
+  "version": "1.0.0"
+}
