@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 import logging
 from typing import Any
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.util import dt as dt_util
 
 from .api import ArcticSpaApiClient, ArcticSpaApiError
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN
@@ -26,9 +27,13 @@ class ArcticSpaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             update_interval=timedelta(seconds=DEFAULT_SCAN_INTERVAL),
         )
         self.client = client
+        self.last_online: datetime | None = None
 
     async def _async_update_data(self) -> dict[str, Any]:
         try:
-            return await self.client.async_get_status()
+            data = await self.client.async_get_status()
+            if data.get("connected"):
+                self.last_online = dt_util.utcnow()
+            return data
         except ArcticSpaApiError as err:
             raise UpdateFailed(f"Error communicating with Arctic Spa API: {err}") from err

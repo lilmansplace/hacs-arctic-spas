@@ -76,6 +76,7 @@ Entities marked with *(if enabled)* are only created when the spa reports that f
 | Arctic Spa Filter Frequency | Sensor | Filter cycle frequency |
 | Arctic Spa Filter Suspension | Sensor | Filter suspension status |
 | Arctic Spa Errors | Sensor | Count of active error codes |
+| Arctic Spa Last Online | Sensor | Timestamp of last successful connection |
 | Arctic Spa Connected | Binary Sensor | API connectivity status |
 | Arctic Spa Spa Boy Connected | Binary Sensor | Spa Boy® connection *(if enabled)* |
 | Arctic Spa Spa Boy Producing | Binary Sensor | Spa Boy® producing *(if connected)* |

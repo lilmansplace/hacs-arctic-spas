@@ -73,6 +73,8 @@ class ArcticSpaBinarySensor(ArcticSpaEntity, BinarySensorEntity):
     ) -> None:
         super().__init__(coordinator, description.key)
         self.entity_description = description
+        if description.key == "connected":
+            self._check_spa_connected = False
 
     @property
     def is_on(self) -> bool | None:

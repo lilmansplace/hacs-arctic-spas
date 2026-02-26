@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from datetime import datetime
+
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
@@ -123,6 +125,7 @@ async def async_setup_entry(
     ]
     if "errors" in coordinator.data:
         entities.append(ArcticSpaErrorsSensor(coordinator))
+    entities.append(ArcticSpaLastOnlineSensor(coordinator))
     async_add_entities(entities)
 
 
@@ -143,6 +146,23 @@ class ArcticSpaSensor(ArcticSpaEntity, SensorEntity):
     def native_value(self) -> Any:
         """Return the sensor value."""
         return self.coordinator.data.get(self.entity_description.value_key)
+
+
+class ArcticSpaLastOnlineSensor(ArcticSpaEntity, SensorEntity):
+    """Sensor showing when the spa was last online."""
+
+    _check_spa_connected = False
+    _attr_name = "Last Online"
+    _attr_device_class = SensorDeviceClass.TIMESTAMP
+    _attr_icon = "mdi:clock-check-outline"
+
+    def __init__(self, coordinator: ArcticSpaCoordinator) -> None:
+        super().__init__(coordinator, "last_online")
+
+    @property
+    def native_value(self) -> datetime | None:
+        """Return the last time the spa was online."""
+        return self.coordinator.last_online
 
 
 class ArcticSpaErrorsSensor(ArcticSpaEntity, SensorEntity):
